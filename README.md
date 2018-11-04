@@ -13,6 +13,6 @@
 * Provide notification timer for each task  
 
 ## Emojeweled
-** A Bejeweled-like Game build in MVVM with Unit Tests**  
+**A Bejeweled-like Game build in MVVM with Unit Tests**  
 * Have fun with Emoji!  
 
