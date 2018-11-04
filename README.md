@@ -10,4 +10,9 @@
 * Invite other member into the group with a 2 mins-expired code to keep the safety
 * All the infos are realtime-update, even if off-line modify may auto-update when the device get back online  
 * Customize the color theme for each group
-* Provide notification timer for each task
+* Provide notification timer for each task  
+
+## Emojeweled
+** A Bejeweled-like Game build in MVVM with Unit Tests**  
+* Have fun with Emoji!  
+

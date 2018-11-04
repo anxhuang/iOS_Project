@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="Emojeweled" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroud" translatesAutoresizingMaskIntoConstraints="NO" id="IgE-Lh-Vdc">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0️⃣0️⃣0️⃣0️⃣" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQA-bo-4ZT">
+                                <rect key="frame" x="0.0" y="40.5" width="320" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kos-iZ-FCJ">
+                                <rect key="frame" x="96" y="421" width="128" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Kos-iZ-FCJ" secondAttribute="height" multiplier="4" id="wmH-0B-RSv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" image="restart"/>
+                                <connections>
+                                    <action selector="onTapRestartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XiR-Be-Vsk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tQA-bo-4ZT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="32f-be-Tfp"/>
+                            <constraint firstItem="IgE-Lh-Vdc" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="6wg-Mf-7i9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tQA-bo-4ZT" secondAttribute="trailing" id="GkZ-Km-Jbl"/>
+                            <constraint firstItem="IgE-Lh-Vdc" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="JHW-IK-2cH"/>
+                            <constraint firstItem="tQA-bo-4ZT" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.25" id="Ke7-kL-cYg"/>
+                            <constraint firstItem="Kos-iZ-FCJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="1.82" id="LsJ-0B-Q2A"/>
+                            <constraint firstItem="IgE-Lh-Vdc" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="WFZ-4F-UFl"/>
+                            <constraint firstItem="Kos-iZ-FCJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="f7e-Zq-YF6"/>
+                            <constraint firstItem="IgE-Lh-Vdc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pYo-xq-Asx"/>
+                            <constraint firstItem="Kos-iZ-FCJ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.4" id="v9H-aI-IjB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="restartButton" destination="Kos-iZ-FCJ" id="cPG-Ss-WEN"/>
+                        <outlet property="scoreLabel" destination="tQA-bo-4ZT" id="SHs-gw-iD5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="backgroud" width="1242" height="2688"/>
+        <image name="restart" width="581" height="144"/>
+    </resources>
+</document>

@@ -18,7 +18,7 @@ class GroupManager: NSObject, NSCoding {
         get { return groups[UserManager.um.currentGroupId] ?? nil }
     }
     var currentUser: MemberModel! {
-        get { return currentGroup.members[UserManager.um.userId] ?? nil }
+        get { return currentGroup?.members[UserManager.um.userId] ?? nil }
     }
     var colorList = [#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),#colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1),#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1),#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1),#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)]
     

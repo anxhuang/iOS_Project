@@ -29,6 +29,30 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if UserManager.um.userId == "LocalUserId" {
+            //第一次以匿名登入
+            Auth.auth().signInAnonymously() { (authResult, error) in
+                if error == nil {
+                    //更新用戶端資料和更新伺服端資料
+                    let localUserId = UserManager.um.userId
+                    UserManager.um.userId = authResult!.user.uid
+                    //更新用戶MemberModel
+                    GroupManager.gm.groups[localUserId]!.members[authResult!.user.uid] = GroupManager.gm.groups[localUserId]!.members[localUserId]
+                    GroupManager.gm.groups[localUserId]!.members[localUserId] = nil
+                    //更新用戶GroupModel
+                    GroupManager.gm.groups[authResult!.user.uid] = GroupManager.gm.groups[localUserId]
+                    GroupManager.gm.groups[localUserId] = nil
+                    //更新GroupIds陣列
+                    UserManager.um.groupIds[0] = authResult!.user.uid
+                    
+                    DataManager.dm.saveGroupData(groupId: authResult!.user.uid)
+                }else{
+                    print(error!.localizedDescription)
+                }
+            }
+            
+        }
+        
         //改造navigationBarTitle
         titleButton = UIButton(type: .custom)
         titleButton.frame = CGRect(x: 0, y: 0, width: 200, height: 40)

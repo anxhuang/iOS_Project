@@ -37,7 +37,7 @@ class TaskView: UIView {
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(onPanDetected(_:)))
         self.gestureRecognizers = [panRecognizer]
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(onClickView(_:)))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(onClickDetected(_:)))
         self.addGestureRecognizer(tapRecognizer)
     }
     
@@ -60,7 +60,7 @@ class TaskView: UIView {
         }
     }
     
-    @objc func onClickView( _ sender: UITapGestureRecognizer) {
+    @objc func onClickDetected( _ sender: UITapGestureRecognizer) {
         delegate?.onClickDetected(self)
     }
     

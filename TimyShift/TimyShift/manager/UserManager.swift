@@ -11,7 +11,7 @@ import Firebase
 
 class UserManager: NSObject, NSCoding{
     
-    var userId = Auth.auth().currentUser!.uid
+    var userId = Auth.auth().currentUser?.uid ?? "LocalUserId"
     var groupIds = Array<String>()
     
     var groupIndex = 0
