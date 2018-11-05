@@ -13,20 +13,20 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleAspectFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroud" translatesAutoresizingMaskIntoConstraints="NO" id="Bl7-X7-j1y">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="gt0-LP-h51">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Bl7-X7-j1y" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="OFI-ob-P3G"/>
-                            <constraint firstItem="Bl7-X7-j1y" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="p8h-JQ-aep"/>
-                            <constraint firstItem="Bl7-X7-j1y" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="pqd-13-IkB"/>
-                            <constraint firstItem="Bl7-X7-j1y" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="v64-uC-1Eh"/>
+                            <constraint firstItem="gt0-LP-h51" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="A68-9D-evt"/>
+                            <constraint firstItem="gt0-LP-h51" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="JcB-v8-L3D"/>
+                            <constraint firstItem="gt0-LP-h51" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="jEH-pR-hzi"/>
+                            <constraint firstItem="gt0-LP-h51" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vsW-Ke-mDt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -37,6 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="backgroud" width="1242" height="2688"/>
+        <image name="launch" width="1242" height="2688"/>
     </resources>
 </document>

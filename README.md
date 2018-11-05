@@ -13,6 +13,8 @@
 * Provide notification timer for each task  
 
 ## Emojeweled
-**A Bejeweled-like Game build in MVVM with Unit Tests**  
+**A Bejeweled-like Game build in MVVM with complete Unit Tests**
+* Pure native, no any 3rd-party pods or libraries included  
+* Multi-Threads animation effect on iOS build-in Emojis  
+* Full complete Unit Tests with self stub generation  
 * Have fun with Emoji!  
-

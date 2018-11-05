@@ -40,7 +40,6 @@ class MainViewController: UIViewController {
         }
         
         refreshView()
-        
     }
     
     func refreshView() {

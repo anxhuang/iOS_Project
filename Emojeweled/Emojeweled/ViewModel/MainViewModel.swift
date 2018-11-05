@@ -14,10 +14,10 @@ class MainViewModel {
     var unitY: CGFloat!
     var box: UIView!
     var anime: UIDynamicAnimator!
-    var guideX = [CGFloat]()
-    var guideY = [CGFloat]()
+    var guideX = Set<CGFloat>()
+    var guideY = Set<CGFloat>()
     let animalIcons = ["🐶","🦊","🐻","🐯","🐮"]
-    var scoreIcons = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
+    let scoreIcons = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
     
     //animals
     var animals = [Animal]()
@@ -57,8 +57,8 @@ class MainViewModel {
                 
                 let x = unitX * CGFloat(j)
                 let y = unitY * CGFloat(i) + unitY * 8
-                guideX.append(x)
-                guideY.append(y)
+                guideX.insert(x)
+                guideY.insert(y)
                 
                 let animal = createAnimal(x: x, y: y )
                 animals.append(animal)
@@ -67,6 +67,13 @@ class MainViewModel {
         }
         
         return box
+    }
+    
+    
+    func createAnimal(x: CGFloat, y: CGFloat, icon: String? = nil) -> Animal {
+        let idx = arc4random_uniform(UInt32(animalIcons.count))
+        let icon = icon ?? animalIcons[Int(idx)]
+        return Animal(x: x, y: y, unitX: unitX * 0.9, unitY: unitY, icon: icon, delegate: self)
     }
     
     func getNearbyAnimals(center: Animal) -> [Animal]{
@@ -118,7 +125,7 @@ class MainViewModel {
         }
     }
     
-    func warning(tapped: [Animal]) {
+    func rotateAnimals(tapped: [Animal]) {
         for animal in tapped {
             
             UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveLinear, animations: {
@@ -132,10 +139,19 @@ class MainViewModel {
         }
     }
     
-    func createAnimal(x: CGFloat, y: CGFloat, icon: String? = nil) -> Animal {
-        let idx = arc4random_uniform(UInt32(animalIcons.count))
-        let icon = icon ?? animalIcons[Int(idx)]
-        return Animal(x: x, y: y, unitX: unitX * 0.9, unitY: unitY, icon: icon, delegate: self)
+    func lineUpAnimals() {
+        var lineUpList = [CGFloat:Int]()
+        for animal in tappedAnimals {
+            let x = animal.frame.minX
+            if let count = lineUpList[x] {
+                lineUpList[x] = count + 1
+            } else {
+                lineUpList[x] = 1
+            }
+            let newAnimal = createAnimal(x: x, y: unitY * CGFloat(8 - lineUpList[x]!) )
+            animals.append(newAnimal)
+            box.addSubview(newAnimal)
+        }
     }
     
     func byeAnimals() {
@@ -148,21 +164,6 @@ class MainViewModel {
             animals = animals.filter {
                 !tappedAnimals.contains($0)
             }
-        }
-    }
-    
-    func linedUpAnimals() {
-        var lineUpList = [CGFloat:Int]()
-        for animal in tappedAnimals {
-            let x = animal.frame.minX
-            if let count = lineUpList[x] {
-                lineUpList[x] = count + 1
-            } else {
-                lineUpList[x] = 1
-            }
-            let newAnimal = createAnimal(x: x, y: unitY * CGFloat(8 - lineUpList[x]!) )
-            animals.append(newAnimal)
-            box.addSubview(newAnimal)
         }
     }
     
@@ -189,6 +190,8 @@ class MainViewModel {
         for id in animals.indices {
             let animalX = animals[id].frame.minX
             let animalY = animals[id].frame.minY
+            let animalW = animals[id].frame.width
+            let animalH = animals[id].frame.height
             let arrangedX = guideX.filter {
                 abs($0 - animalX) < unitX * 0.5
             }[0]
@@ -197,7 +200,7 @@ class MainViewModel {
             }[0]
             
             UIView.animate(withDuration: 0.2, animations: {
-                self.animals[id].frame = CGRect(x: arrangedX, y: arrangedY, width: self.unitX, height: self.unitY)
+                self.animals[id].frame = CGRect(x: arrangedX, y: arrangedY, width: animalW, height: animalH)
             }) { done in
                 self.animals[id].removeFromSuperview()
                 self.animals[id] = self.createAnimal(x: arrangedX, y: arrangedY, icon: self.animals[id].text)
@@ -240,7 +243,7 @@ extension MainViewModel: AnimalDelegate {
     func onTapDetected(_ animal: Animal) {
         if tappedAnimals.contains(animal) {
             _ = animals.map { $0.isUserInteractionEnabled = false }
-            linedUpAnimals()
+            lineUpAnimals()
             byeAnimals()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.fallingAnimals()
@@ -249,7 +252,7 @@ extension MainViewModel: AnimalDelegate {
         } else {
             let around = getAroundAnimals(core: animal)
             if around.count < 3 {
-                warning(tapped: around)
+                rotateAnimals(tapped: around)
                 tappedAnimals.removeAll()
             } else {
                 tappedAnimals = around
