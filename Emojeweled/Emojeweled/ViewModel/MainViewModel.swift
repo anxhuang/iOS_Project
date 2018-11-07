@@ -170,6 +170,7 @@ class MainViewModel {
     func fallingAnimals() {
         
         let gravity = UIGravityBehavior(items: animals)
+        gravity.gravityDirection = CGVector(dx: 0, dy: 1)
         let collision = UICollisionBehavior(items: animals)
         collision.translatesReferenceBoundsIntoBoundary = true
         
@@ -180,9 +181,21 @@ class MainViewModel {
         anime = UIDynamicAnimator(referenceView: box)
         anime.addBehavior(gravity)
         anime.addBehavior(collision)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            self.anime.removeAllBehaviors()
-            self.arrangeAnimals()
+        
+        let arrangeY = self.guideY.min()!
+        DispatchQueue.global().async {
+            var onFalling = true
+            while onFalling {
+                //Edit Scheme -> Diagnostics -> Disabled "Main Thread Checker" for the next line
+                let animalY = self.animals.min { $0.frame.minY < $1.frame.minY }!.frame.minY
+                if abs(animalY - arrangeY) < self.unitY * 0.1 {
+                    onFalling = false
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.anime.removeAllBehaviors()
+                self.arrangeAnimals()
+            }
         }
     }
     
