@@ -16,6 +16,7 @@ class MainViewModel {
     var anime: UIDynamicAnimator!
     var guideX = Set<CGFloat>()
     var guideY = Set<CGFloat>()
+    var lineUps = [Animal]()
     let animalIcons = ["🐶","🐹","🐻","🐯","🐮"]
     let scoreIcons = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
     
@@ -140,6 +141,7 @@ class MainViewModel {
     }
     
     func lineUpAnimals() {
+        lineUps.removeAll()
         var lineUpList = [CGFloat:Int]()
         for animal in tappedAnimals {
             let x = animal.frame.minX
@@ -149,6 +151,7 @@ class MainViewModel {
                 lineUpList[x] = 1
             }
             let newAnimal = createAnimal(x: x, y: unitY * CGFloat(8 - lineUpList[x]!) )
+            lineUps.append(newAnimal)
             animals.append(newAnimal)
             box.addSubview(newAnimal)
         }
@@ -187,7 +190,7 @@ class MainViewModel {
             var onFalling = true
             while onFalling {
                 //Edit Scheme -> Diagnostics -> Disabled "Main Thread Checker" for the next line
-                let animalY = self.animals.min { $0.frame.minY < $1.frame.minY }!.frame.minY
+                let animalY = self.lineUps.min { $0.frame.minY < $1.frame.minY }!.frame.minY
                 if abs(animalY - arrangeY) < self.unitY * 0.1 {
                     onFalling = false
                 }

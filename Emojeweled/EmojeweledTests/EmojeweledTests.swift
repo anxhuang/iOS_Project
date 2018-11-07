@@ -137,6 +137,7 @@ class EmojeweledTests: XCTestCase {
         sut.lineUpAnimals()
         
         //Assert
+        XCTAssertEqual(sut.lineUps.count, sut.tappedAnimals.count )
         XCTAssertEqual(sut.animals.count, sum)
         XCTAssertEqual(sut.box.subviews.count, sum)
     }
@@ -160,6 +161,7 @@ class EmojeweledTests: XCTestCase {
     func test_fallingAnimals() {
         //Given
         sut.animals = mockVM.getStubTappedAnimal()
+        sut.lineUps = sut.animals
         
         //When
         sut.fallingAnimals()
