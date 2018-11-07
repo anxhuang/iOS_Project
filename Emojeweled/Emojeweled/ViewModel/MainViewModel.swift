@@ -16,7 +16,7 @@ class MainViewModel {
     var anime: UIDynamicAnimator!
     var guideX = Set<CGFloat>()
     var guideY = Set<CGFloat>()
-    let animalIcons = ["🐶","🦊","🐻","🐯","🐮"]
+    let animalIcons = ["🐶","🐹","🐻","🐯","🐮"]
     let scoreIcons = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
     
     //animals
