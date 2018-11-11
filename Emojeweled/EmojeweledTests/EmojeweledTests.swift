@@ -189,9 +189,11 @@ class EmojeweledTests: XCTestCase {
         sut.arrangeAnimals()
         
         //Assert
-        XCTAssertEqual(sut.animals[0].frame.midX, stubX)
-        XCTAssertEqual(sut.animals[0].frame.midY, stubY)
-        XCTAssertEqual(sut.animals[0].text, stubIcon)
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+            XCTAssertEqual(self.sut.animals[0].frame.midX, stubX)
+            XCTAssertEqual(self.sut.animals[0].frame.midY, stubY)
+            XCTAssertEqual(self.sut.animals[0].text, stubIcon)
+        }
     }
     
     func test_checkGameOverTrue() { // for Game Over

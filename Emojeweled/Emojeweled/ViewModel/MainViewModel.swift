@@ -195,7 +195,7 @@ class MainViewModel {
                     onFalling = false
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
                 self.anime.removeAllBehaviors()
                 self.arrangeAnimals()
             }
@@ -214,13 +214,14 @@ class MainViewModel {
             let arrangedY = guideY.filter {
                 abs($0 - animalY) < unitY * 0.5
             }[0]
-            
-            UIView.animate(withDuration: 0.2, animations: {
-                self.animals[id].frame = CGRect(x: arrangedX, y: arrangedY, width: animalW, height: animalH)
-            }) { done in
-                self.animals[id].removeFromSuperview()
-                self.animals[id] = self.createAnimal(x: arrangedX, y: arrangedY, icon: self.animals[id].text)
-                self.box.addSubview(self.animals[id])
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.animals[id].frame = CGRect(x: arrangedX, y: arrangedY, width: animalW, height: animalH)
+                }) { done in
+                    self.animals[id].removeFromSuperview()
+                    self.animals[id] = self.createAnimal(x: arrangedX, y: arrangedY, icon: self.animals[id].text)
+                    self.box.addSubview(self.animals[id])
+                }
             }
         }
         checkGameOver()
@@ -233,7 +234,9 @@ class MainViewModel {
             minAround = max(minAround, around.count)
         }
         if minAround < 3 {
-            popGameOver?()
+            DispatchQueue.main.async {
+                self.popGameOver?()
+            }
         }
     }
     var popGameOver: (()->())?
