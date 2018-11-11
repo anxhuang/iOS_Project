@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE627DC52198599200EF901B /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE627DC42198599200EF901B /* AlertViewController.swift */; };
 		CEA66811218C23BC0065402C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA66810218C23BC0065402C /* AppDelegate.swift */; };
 		CEA66813218C23BC0065402C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA66812218C23BC0065402C /* MainViewController.swift */; };
 		CEA66816218C23BC0065402C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEA66814218C23BC0065402C /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE627DC42198599200EF901B /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		CEA6680D218C23BC0065402C /* Emojeweled.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Emojeweled.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA66810218C23BC0065402C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEA66812218C23BC0065402C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				CEA66812218C23BC0065402C /* MainViewController.swift */,
+				CE627DC42198599200EF901B /* AlertViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 				CEA66813218C23BC0065402C /* MainViewController.swift in Sources */,
 				CEA66811218C23BC0065402C /* AppDelegate.swift in Sources */,
 				CEA66831218C26080065402C /* Animal.swift in Sources */,
+				CE627DC52198599200EF901B /* AlertViewController.swift in Sources */,
 				CEA66836218C271E0065402C /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

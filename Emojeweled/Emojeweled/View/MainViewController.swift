@@ -28,15 +28,10 @@ class MainViewController: UIViewController {
         }
         
         viewModel.popGameOver = { () in
-            let alert = UIAlertController(title: "Game Over", message: nil, preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
-            let restartAction = UIAlertAction(title: "PLAY AGAIN", style: .destructive) { _ in
-                self.refreshView()
-            }
-            alert.addAction(cancelAction)
-            alert.addAction(restartAction)
-            self.present(alert, animated: true, completion: nil)
+            let alert = self.storyboard?.instantiateViewController(withIdentifier: "AlertViewID") as! AlertViewController
+            alert.delegate = self
             self.restartButton.isHidden = false
+            self.present(alert, animated: true, completion: nil)
         }
         
         refreshView()
@@ -55,8 +50,22 @@ class MainViewController: UIViewController {
     @IBAction func onTapRestartButton(_ sender: UIButton) {
         refreshView()
     }
+
+}
+
+extension MainViewController: AlertViewDelegate {
+    func setFinalScore() -> String {
+        return viewModel.scoreToIcons(score: viewModel.score)
+    }
     
-
-
+    func onTapRestart() {
+        refreshView()
+    }
+    
+    func onTapCancel() {
+        //do nothing
+    }
+    
+    
 }
 

@@ -195,9 +195,11 @@ class MainViewModel {
                     onFalling = false
                 }
             }
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05){
                 self.anime.removeAllBehaviors()
-                self.arrangeAnimals()
+                DispatchQueue.global().async {
+                    self.arrangeAnimals()
+                }
             }
         }
     }
@@ -224,7 +226,9 @@ class MainViewModel {
                 }
             }
         }
-        checkGameOver()
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2){
+            self.checkGameOver()
+        }
     }
     
     func checkGameOver() {
