@@ -150,9 +150,9 @@ class EmojeweledTests: XCTestCase {
         sut.byeAnimals()
         
         //Assert
-        for bye in sut.tappedAnimals {
-            XCTAssertFalse(sut.animals.contains(bye))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            for bye in self.sut.tappedAnimals {
+                XCTAssertFalse(self.sut.animals.contains(bye))
                 XCTAssertFalse(self.sut.box.subviews.contains(bye))
             }
         }
@@ -189,7 +189,7 @@ class EmojeweledTests: XCTestCase {
         sut.arrangeAnimals()
         
         //Assert
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
             XCTAssertEqual(self.sut.animals[0].frame.midX, stubX)
             XCTAssertEqual(self.sut.animals[0].frame.midY, stubY)
             XCTAssertEqual(self.sut.animals[0].text, stubIcon)
