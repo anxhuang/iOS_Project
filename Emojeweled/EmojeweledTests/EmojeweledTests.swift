@@ -208,6 +208,7 @@ class EmojeweledTests: XCTestCase {
         sut.checkGameOver()
         
         //Assert
+        XCTAssertEqual(sut.hint.count, 2)
         wait(for: [expect], timeout: 0.5)
     }
     
@@ -221,7 +222,7 @@ class EmojeweledTests: XCTestCase {
         sut.checkGameOver()
         
         //Assert
-        // => assigned in Given
+        XCTAssertEqual(sut.hint.count, 25)
     }
     
     func test_scoreToIcon() {

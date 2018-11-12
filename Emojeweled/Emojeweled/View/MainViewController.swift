@@ -10,10 +10,11 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var restartButton: UIButton!
     
     var box: UIView!
+    var hintCounter = 0
     
     lazy var viewModel: MainViewModel = {
         return MainViewModel()
@@ -21,10 +22,12 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         viewModel.renewScoreLabel = { scoreString in
-            self.scoreLabel.text = scoreString
+            UIView.performWithoutAnimation {
+                self.scoreButton.setTitle(scoreString, for: .normal)
+                self.scoreButton.layoutIfNeeded()
+            }
         }
         
         viewModel.popGameOver = { () in
@@ -38,19 +41,53 @@ class MainViewController: UIViewController {
     }
     
     func refreshView() {
-        
         if let box = box {
             box.removeFromSuperview()
         }
-        restartButton.isHidden = true
         box = viewModel.initAnimals()
         view.addSubview(box)
+        view.bringSubviewToFront(scoreButton)
+        restartButton.isHidden = true
+        hintCounter = 0
+    }
+    
+    func autoPlay() {
+        if viewModel.hint.count > 2 {
+            viewModel.onTapDetected(viewModel.hint[0])
+            DispatchQueue.global().async {
+                while(self.viewModel.isRunning){}
+                self.viewModel.checkGameOver()
+                DispatchQueue.main.async {
+                    self.autoPlay()
+                }
+            }
+        } else {
+            scoreButton.isEnabled = true
+            scoreButton.alpha = 1
+        }
+    }
+    
+    // Removed/Comment this func to disable the hint trigger
+    @IBAction func onTapScoreButton(_ sender: UIButton) {
+        hintCounter += 1
+        if hintCounter == 7 {
+            sender.isEnabled = false
+            sender.alpha = 0.4
+            autoPlay()
+        } else {
+            sender.isEnabled = false
+            viewModel.onTapDetected(viewModel.hint[0])
+            DispatchQueue.global().async {
+                while(self.viewModel.isRunning){}
+                sender.isEnabled = true
+            }
+        }
     }
     
     @IBAction func onTapRestartButton(_ sender: UIButton) {
         refreshView()
     }
-
+    
 }
 
 extension MainViewController: AlertViewDelegate {

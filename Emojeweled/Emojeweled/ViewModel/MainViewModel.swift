@@ -17,6 +17,8 @@ class MainViewModel {
     var guideX = Set<CGFloat>()
     var guideY = Set<CGFloat>()
     var lineUps = [Animal]()
+    var hint = [Animal]()
+    var isRunning = false
     let animalIcons = ["🐶","🐹","🐻","🐯","🐮"]
     let scoreIcons = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
     
@@ -49,23 +51,26 @@ class MainViewModel {
         let originY = UIScreen.main.bounds.height/2 - unitY * 4
         
         let boxRect = CGRect(x: originX, y: originY - unitY * 8, width: unitX * 8, height: unitY * 16)
-        box = UIView(frame: boxRect)
         
-        score = 0
-        animals.removeAll()
-        for i in 0...7 {
-            for j in 0...7 {
-                
-                let x = unitX * CGFloat(j)
-                let y = unitY * CGFloat(i) + unitY * 8
-                guideX.insert(x)
-                guideY.insert(y)
-                
-                let animal = createAnimal(x: x, y: y )
-                animals.append(animal)
-                box.addSubview(animal)
+        repeat {
+            box = UIView(frame: boxRect)
+            score = 0
+            animals.removeAll()
+            for i in 0...7 {
+                for j in 0...7 {
+                    
+                    let x = unitX * CGFloat(j)
+                    let y = unitY * CGFloat(i) + unitY * 8
+                    guideX.insert(x)
+                    guideY.insert(y)
+                    
+                    let animal = createAnimal(x: x, y: y )
+                    animals.append(animal)
+                    box.addSubview(animal)
+                }
             }
-        }
+            checkGameOver()
+        } while (hint.count < 3)
         
         return box
     }
@@ -124,6 +129,7 @@ class MainViewModel {
             }
             
         }
+        isRunning = false
     }
     
     func rotateAnimals(tapped: [Animal]) {
@@ -138,6 +144,7 @@ class MainViewModel {
             }
             
         }
+        isRunning = false
     }
     
     func lineUpAnimals() {
@@ -159,14 +166,14 @@ class MainViewModel {
     
     func byeAnimals() {
         for animal in tappedAnimals {
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 animal.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             }) { done in
                 animal.removeFromSuperview()
             }
-            animals = animals.filter {
-                !tappedAnimals.contains($0)
-            }
+        }
+        animals = animals.filter {
+            !tappedAnimals.contains($0)
         }
     }
     
@@ -195,7 +202,7 @@ class MainViewModel {
                     onFalling = false
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05){
+            DispatchQueue.main.asyncAfter(deadline: .now() ){
                 self.anime.removeAllBehaviors()
                 DispatchQueue.global().async {
                     self.arrangeAnimals()
@@ -224,10 +231,12 @@ class MainViewModel {
                     self.animals[id] = self.createAnimal(x: arrangedX, y: arrangedY, icon: self.animals[id].text)
                     self.box.addSubview(self.animals[id])
                 }
+                if self.animals[id] == self.animals.last {
+                    DispatchQueue.global().async {
+                        self.checkGameOver()
+                    }
+                }
             }
-        }
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2){
-            self.checkGameOver()
         }
     }
     
@@ -235,12 +244,18 @@ class MainViewModel {
         var minAround = 0
         for animal in animals {
             let around = getAroundAnimals(core: animal)
-            minAround = max(minAround, around.count)
+            if minAround < around.count {
+                minAround = around.count
+                hint = around
+            }
         }
         if minAround < 3 {
             DispatchQueue.main.async {
                 self.popGameOver?()
+                self.isRunning = false
             }
+        } else {
+            isRunning = false
         }
     }
     var popGameOver: (()->())?
@@ -264,6 +279,7 @@ class MainViewModel {
 
 extension MainViewModel: AnimalDelegate {
     func onTapDetected(_ animal: Animal) {
+        isRunning = true
         if tappedAnimals.contains(animal) {
             _ = animals.map { $0.isUserInteractionEnabled = false }
             lineUpAnimals()
@@ -279,6 +295,7 @@ extension MainViewModel: AnimalDelegate {
                 tappedAnimals.removeAll()
             } else {
                 tappedAnimals = around
+                hint = around
             }
         }
     }
