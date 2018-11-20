@@ -8,7 +8,9 @@
 
 import UIKit
 
-class MainViewModel {
+class MainViewModel: NSObject {
+    
+    @objc dynamic var isRunning = false
     
     var unitX: CGFloat!
     var unitY: CGFloat!
@@ -18,7 +20,7 @@ class MainViewModel {
     var guideY = Set<CGFloat>()
     var lineUps = [Animal]()
     var hint = [Animal]()
-    var isRunning = false
+    
     let animalIcons = ["🐶","🐹","🐻","🐯","🐮"]
     let scoreIcons = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
     
@@ -30,6 +32,7 @@ class MainViewModel {
         }
         didSet {
             twinkleAnimals()
+            isRunning = false
         }
     }
     
@@ -129,7 +132,6 @@ class MainViewModel {
             }
             
         }
-        isRunning = false
     }
     
     func rotateAnimals(tapped: [Animal]) {
@@ -215,8 +217,6 @@ class MainViewModel {
         for id in animals.indices {
             let animalX = animals[id].frame.minX
             let animalY = animals[id].frame.minY
-            let animalW = animals[id].frame.width
-            let animalH = animals[id].frame.height
             let arrangedX = guideX.filter {
                 abs($0 - animalX) < unitX * 0.5
             }[0]
@@ -225,7 +225,8 @@ class MainViewModel {
             }[0]
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.2, animations: {
-                    self.animals[id].frame = CGRect(x: arrangedX, y: arrangedY, width: animalW, height: animalH)
+                    self.animals[id].frame.origin.x = arrangedX
+                    self.animals[id].frame.origin.y = arrangedY
                 }) { done in
                     self.animals[id].removeFromSuperview()
                     self.animals[id] = self.createAnimal(x: arrangedX, y: arrangedY, icon: self.animals[id].text)

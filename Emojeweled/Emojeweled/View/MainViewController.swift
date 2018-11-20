@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     
     var box: UIView!
     var hintCounter = 0
+    var observation: NSKeyValueObservation!
     
     lazy var viewModel: MainViewModel = {
         return MainViewModel()
@@ -38,6 +39,7 @@ class MainViewController: UIViewController {
         }
         
         refreshView()
+        
     }
     
     func refreshView() {
@@ -54,14 +56,8 @@ class MainViewController: UIViewController {
     func autoPlay() {
         if viewModel.hint.count > 2 {
             viewModel.onTapDetected(viewModel.hint[0])
-            DispatchQueue.global().async {
-                while(self.viewModel.isRunning){}
-                self.viewModel.checkGameOver()
-                DispatchQueue.main.async {
-                    self.autoPlay()
-                }
-            }
         } else {
+            observation.invalidate()
             scoreButton.isEnabled = true
             scoreButton.alpha = 1
         }
@@ -73,13 +69,22 @@ class MainViewController: UIViewController {
         if hintCounter == 7 {
             sender.isEnabled = false
             sender.alpha = 0.4
+            observation = viewModel.observe(\.isRunning, options: .new) { (viewModel, change) in
+                if !change.newValue! {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.autoPlay()
+                    }
+                }
+            }
             autoPlay()
         } else {
             sender.isEnabled = false
             viewModel.onTapDetected(viewModel.hint[0])
             DispatchQueue.global().async {
                 while(self.viewModel.isRunning){}
-                sender.isEnabled = true
+                DispatchQueue.main.async {
+                    sender.isEnabled = true
+                }
             }
         }
     }
